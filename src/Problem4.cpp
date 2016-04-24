@@ -35,7 +35,76 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
+void in(struct node *root, int *arr, int *i)
+{
+	int j;
+	if (root == NULL)
+	{
+		return;
+	}
+	else
+	{
 
+		in(root->left, arr, i);
+		j = *i;
+		(*i)++;
+		arr[j] = root->data;
+
+		in(root->right, arr, i);
+	}
+}
+void inorder(struct node *root, int *arr){
+
+	int i = 0;
+	if (root != NULL)
+	{
+		in(root, arr, &i);
+	}
+}
+int count(struct node *root2)
+{
+	int c = 1;
+
+	if (root2== NULL)
+		return 0;
+	else
+	{
+		c += count(root2->left);
+		c += count(root2->right);
+		return c;
+	}
+}
+struct node *newNode(int d)
+{
+	struct node *temp = (struct node *)malloc(sizeof(struct node)*1);
+	temp->data = d;
+	temp->left = temp->right = NULL;
+	return temp;
+}
+struct node* insert(struct node* node, int *d)
+{
+	if (node == NULL) 
+		return newNode(*d);
+	if (*d< node->data)
+		node->left = insert(node->left,d);
+	else if (*d > node->data)
+		node->right = insert(node->right,d);
+	return node;
+}
 void merge_two_bst(struct node *root1, struct node *root2){
-	
+	int *arr,len,i=0;
+	struct node *temp;
+	if (root1&&root2)
+	{
+		len = count(root2);
+		arr = (int *)malloc(sizeof(int)*len);
+		inorder(root2, arr);
+		temp = (struct node *)malloc(sizeof(struct node) * 1);
+		while (i < len)
+		{
+			temp = root1;
+			insert(temp, &arr[i]);
+			i++;
+		}
+	}
 }

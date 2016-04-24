@@ -70,7 +70,122 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
+void  in(struct node *root,struct node_dll *dll,int *i)
+{
+	if (root == NULL)
+	{
+		return ;
+	}
+	else
+	{
 
+		in(root->left,dll,i);
+		if (*i == 0)
+		{
+			if (root->data!= dll->data)
+			{
+				*i = 1;
+			}
+		}
+		in(root->right,dll,i);
+	}
+}
+int inorder(struct node *root,struct node_dll *dll){
+
+	int i = 0;
+	if (root != NULL)
+	{
+		in(root,dll, &i);
+		return i;
+	}
+}
+void pre(struct node *root,struct node_dll *dll,int *j)
+{
+	if (root == NULL)
+	{
+		return;
+	}
+	else
+	{
+		if (*j == 0)
+		{
+			if (root->data!= dll->data)
+			{
+				*j = 1;
+			}
+		}
+		pre(root->left,dll,j);
+		pre(root->right,dll,j);
+	}
+}
+int preorder(struct node *root,struct node_dll *dll){
+	int j = 0;
+	if (root != NULL)
+	{
+		pre(root,dll,&j);
+		return j;
+	}
+}
+void post(struct node *root,struct node_dll *dll,int *k)
+{
+	if (root == NULL)
+	{
+		return;
+	}
+	else
+	{
+		post(root->left,dll,k);
+		post(root->right,dll,k);
+		if (*k == 0)
+		{
+			if (root->data != dll->data)
+			{
+				*k = 1;
+			}
+		}
+	}
+
+}
+int  postorder(struct node *root,struct node_dll *dll){
+
+	int k = 0;
+	if (root != NULL)
+	{
+		post(root,dll,&k);
+		return k;
+	}
+
+}
 int is_identical(struct node_dll *head, struct node *root){
+
+	int p;
+	if (root&&head)
+	{
+		p = inorder(root, head);
+		if (p == 0)
+		{
+			return 1;
+		}
+		else
+		{
+			p = preorder(root, head);
+			if (p == 0)
+			{
+				return 1;
+			}
+			else
+			{
+				p = postorder(root, head);
+				if (p == 0)
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+		}
+	}
 	return -1;
 }
